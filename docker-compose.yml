@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  web:
+    image: python:3.9-slim   # Use an official Python image
+    command: >
+      sh -c "pip install -r /app/requirements.txt && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - my-postgres
+    environment:
+      - PYTHONUNBUFFERED=1  # To ensure logs are displayed in real-time
+
+  my-postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
