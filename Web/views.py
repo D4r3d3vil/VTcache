@@ -27,25 +27,9 @@ def get_report_by_id(request, report_id):
     except Report.DoesNotExist:
         return JsonResponse({'error': 'Report not found'}, status=404)
 
-# View to create a new report
-def create_report(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        report = Report.objects.create(
-            type=data.get('type'),
-            result=data.get('result')
-        )
-        return JsonResponse({
-            'id': report.id,
-            'date': report.date,
-            'type': report.type,
-            'result': report.result,
-        }, status=201)
-
 def scan_url(request, url):
     result = scan_url_task.delay(url)
-    task = AsyncResult(result.id)
-    return HttpResponse('DOne')
+    return HttpResponse('Done')
 
 def home(request):
     return HttpResponse("Hello HTTP!")

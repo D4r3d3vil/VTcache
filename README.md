@@ -14,3 +14,14 @@ The entire project is dockerized to start it simply run:
 ```bash
 docker-compose up
 ```
+
+## Admin Panel
+Django provides a powerful admin interface which integrates well with this project
+to use it first create a superuser: 
+```bash 
+docker-compose exec web python manage.py createsuperuser
+```
+then re-run the project:
+```bash
+docker-compose up
+```
