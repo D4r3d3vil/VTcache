@@ -1,3 +1,5 @@
 Django
 psycopg2-binary
-celery
+celery[redis]
+vt-py
+requests
