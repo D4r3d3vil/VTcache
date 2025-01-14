@@ -5,6 +5,7 @@ class Report(models.Model):
         ('url', 'URL'),
         ('ip', 'IP'),
         ('domain', 'Domain'),
+        ('hash', 'Hash'),
     ]
 
     date = models.DateField(auto_now_add=True)
