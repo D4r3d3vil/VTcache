@@ -25,3 +25,6 @@ then re-run the project:
 ```bash
 docker-compose up
 ```
+
+## API
+There are 4 main API endpoints
