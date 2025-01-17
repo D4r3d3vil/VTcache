@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VT - scan</title>
+    <script src="{% static 'tailwind.js' %}"></script>
+    <script src="{% static 'index.js' %}"></script>
+    <style>
+        body {
+            background-color: #f4f6f8;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .header {
+            background-color: #0073e6;
+            color: white;
+        }
+
+        .main-content {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-section {
+            background-color: #f9fafb;
+            border: 2px solid #d1d5db;
+            border-radius: 12px;
+            padding: 2rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-section:hover {
+            border-color: #0073e6;
+        }
+
+        .footer {
+            background-color: #0073e6;
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="text-gray-800 antialiased">
+
+<header class="header py-6 shadow-lg">
+    <div class="container mx-auto text-center">
+        <h1 class="text-3xl font-extrabold">VTcache</h1>
+        <p class="text-lg mt-2">Scan URLs, domains, IP addresses, or file hashes quickly and easily.</p>
+    </div>
+</header>
+
+<main class="main-content container mx-auto mt-12 p-8">
+    <section class="input-section text-center">
+        <h2 class="text-2xl font-semibold mb-6">Select a Scan Option</h2>
+        <div class="flex flex-col items-center space-y-4">
+            <input type="text" placeholder="Enter URL, Domain, IP Address, or File Hash" class="w-full md:w-2/3 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" id="textInp" />
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full md:w-2/3">
+                <button class="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-3 rounded-lg shadow-lg hover:from-blue-600 hover:to-blue-800 transform hover:scale-105 transition-all" onclick="scan('url')">Scan URL</button>
+                <button class="bg-gradient-to-r from-green-500 to-green-700 text-white px-6 py-3 rounded-lg shadow-lg hover:from-green-600 hover:to-green-800 transform hover:scale-105 transition-all" onclick="scan('domain')">Scan Domain</button>
+                <button class="bg-gradient-to-r from-purple-500 to-purple-700 text-white px-6 py-3 rounded-lg shadow-lg hover:from-purple-600 hover:to-purple-800 transform hover:scale-105 transition-all" onclick="scan('ip')">Scan IP</button>
+                <button class="bg-gradient-to-r from-red-500 to-red-700 text-white px-6 py-3 rounded-lg shadow-lg hover:from-red-600 hover:to-red-800 transform hover:scale-105 transition-all" onclick="scan('hash')">Scan File Hash</button>
+            </div>
+        </div>
+    </section>
+    <section class="results mt-12">
+        <h2 class="text-2xl font-bold mb-6">Recent Scans</h2>
+        <div class="bg-gray-100 p-6 rounded-lg shadow-sm">
+            {% if recent_scans %}
+            <div class="space-y-4">
+                {% for scan in recent_scans %}
+                <div class="flex items-center justify-between bg-white p-4 rounded-lg shadow-md">
+                    <div class="flex-1">
+                        <p class="text-gray-700 font-medium">ID: {{ scan.id }}</p>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-blue-500 truncate">
+                            {% if scan.type == 'domain' %}
+                            Domain: <a href="{{scan.scan_query}}" target="_blank">{{ scan.scan_query }}</a>
+                            {% elif scan.type == 'ip' %}
+                            IP: {{ scan.scan_query }}
+                            {% elif scan.type == 'url' %}
+                            Url: <a href="{{scan.scan_query}}" target="_blank">{{ scan.scan_query }}</a>
+                            {% elif scan.type == 'hash' %}
+                            Hash: {{ scan.scan_query }}
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-500">{{ scan.date }}</p>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-green-500 font-medium">Type: {{ scan.url.type }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-gray-700">No recent scans.</p>
+            {% endif %}
+        </div>
+    </section>
+</main>
+
+
+<footer class="footer py-4">
+    <div class="container mx-auto text-center">
+        <p class="text-sm">&copy; 2025 VTcache. All rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+
+</html>

@@ -1,3 +1,5 @@
+from email.policy import default
+
 from django.db import models
 
 class Report(models.Model):
@@ -10,6 +12,7 @@ class Report(models.Model):
 
     date = models.DateField(auto_now_add=True)
     type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+    scan_query = models.TextField(default='')
     result = models.JSONField()
 
     def __str__(self):
